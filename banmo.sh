@@ -13,6 +13,9 @@
 module load CUDA/11.4.3
 module load PyTorch/1.10.0-GCCcore-10.2.0-CUDA-11.4.3
 module load Python/3.8.6-GCCcore-10.2.0
+module load Miniconda3/4.9.2
+
+source activate banmo
 
 # Path to the directory where your 3D reconstruction script is located
 cd ./banmo
