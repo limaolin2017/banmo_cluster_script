@@ -31,3 +31,5 @@ bash scripts/template-mgpu.sh $gpus $savename \
   --lineload --batch_size $batch_size\
   --${use_symm}symm_shape \
   --${use_human}use_human
+
+  
