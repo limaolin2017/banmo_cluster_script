@@ -10,6 +10,8 @@
 
 # 加载所需的模块（根据您的集群环境进行调整）
 # module load python/3.8 CUDA/11.0 ...
+module load CUDA/11.4.3
+module load PyTorch/1.10.0
 
 # 路径到您的3D重建脚本所在的目录
 cd /scripts/
@@ -17,11 +19,13 @@ cd /scripts/
 # 运行您的3D重建脚本
 gpus=5
 seqname="cat-pikachiu"
-addr=$3
-use_human=$4
-use_symm=$5
+addr="10001"
+use_human="no"
+use_symm="no"
+pose_cnn_path="./banmo/mesh_material/posenet/quad.pth"
 num_epochs=120
 batch_size=256
+model_prefix="3D_reconstruction_cat_pikachiu"
 
 savename=${model_prefix}-init
 bash scripts/template-mgpu.sh $gpus $savename \
@@ -32,4 +36,4 @@ bash scripts/template-mgpu.sh $gpus $savename \
   --${use_symm}symm_shape \
   --${use_human}use_human
 
-  
+
