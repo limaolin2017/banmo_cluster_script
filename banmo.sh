@@ -1,22 +1,23 @@
 #!/bin/bash
-#SBATCH -J 3D_reconstruction      # 作业名称
+#SBATCH -J 3D_reconstruction      # name
 #SBATCH -p medium               	     # Queue name
-#SBATCH -N 1                      		     # 请求1个节点
-#SBATCH --gres=gpu:5              	     # 请求5个GPU（或您需要的GPU数量）
-#SBATCH --time=8:00:00                # 设置作业的最大运行时间为24小时
+#SBATCH -N 1                      		     # 1 node
+#SBATCH --gres=gpu:5              	     # GPUs per node
+#SBATCH --time=8:00:00                # maximum execution time (HH:MM:SS)
 
-#SBATCH -o slurm_3D.%N.%J.out     # 标准输出文件的名称
-#SBATCH -e slurm_3D.%N.%J.err      # 标准错误文件的名称
+#SBATCH -o slurm_3D.%N.%J.out     # Name of the standard output file
+#SBATCH -e slurm_3D.%N.%J.err      # Name of the standard error file
 
-# 加载所需的模块（根据您的集群环境进行调整）
+# Load the required modules (adjust for your cluster environment)
 # module load python/3.8 CUDA/11.0 ...
 module load CUDA/11.4.3
-module load PyTorch/1.10.0
+module load PyTorch/1.10.0-GCCcore-10.2.0-CUDA-11.4.3
+module load Python/3.8.6-GCCcore-10.2.0
 
-# 路径到您的3D重建脚本所在的目录
-cd /scripts/
+# Path to the directory where your 3D reconstruction script is located
+cd ./banmo
 
-# 运行您的3D重建脚本
+# Run your 3D reconstruction script
 gpus=5
 seqname="cat-pikachiu"
 addr="10001"
