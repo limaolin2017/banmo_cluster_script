@@ -11,14 +11,18 @@
 # Load the required modules (adjust for your cluster environment)
 # module load python/3.8 CUDA/11.0 ...
 
-module load Anaconda3
+module load Miniconda3
 
 # Activate your conda environment
 source activate banmo
 
 # Print some info about the assigned nodes
-echo "nvidia-smi:"
-nvidia-smi
+#echo "nvidia-smi:"
+#nvidia-smi
+
+#echo "nvcc --version:"
+#nvcc --version
+
 
 # Path to the directory where your 3D reconstruction script is located
 cd ./banmo
