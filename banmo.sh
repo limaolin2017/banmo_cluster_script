@@ -3,10 +3,10 @@
 #SBATCH -p high              	     # Queue name
 #SBATCH -N 2                      		     # 2 node
 #SBATCH --gres=gpu:2              	     # GPUs per node
-#SBATCH --nodelist=node[019,020,021,022,023,024,025,026]    #指定优先使用节点
+#SBATCH --exclude=node[001-018],node[031-032]  #排除节点
 #SBATCH --time=99:99:99                # maximum execution time (HH:MM:SS)
-#SBATCH -o slurm_3D.%N.%J.out     # Name of the standard output file
-#SBATCH -e slurm_3D.%N.%J.err      # Name of the standard error file
+#SBATCH -o slurm_3D.%N.%J.out       # Name of the standard output file
+#SBATCH -e slurm_3D.%N.%J.err        # Name of the standard error file
 #SBATCH --distribution=block
 
 
@@ -18,11 +18,20 @@ module load NCCL/2.9.9-CUDA-11.3.1
 module load PyTorch/1.10.0-foss-2020b-CUDA-11.3.1
 module load CUDA/11.3.1
 
-# Activate your conda environment
-conda activate banmo-cu113
-
-# Path to the directory where your 3D reconstruction script is located
 cd ./banmo
+
+conda env create -f misc/banmo-cu113.yml
+
+# Activate your conda environment
+source activate banmo-cu113
+
+# install pytorch3d (takes minutes), kmeans-pytorch
+pip install -e third_party/pytorch3d
+pip install -e third_party/kmeans_pytorch
+# install detectron2
+python -m pip install detectron2 -f \
+  https://dl.fbaipublicfiles.com/detectron2/wheels/cu113/torch1.10/index.html
+
 
 # Run your 3D reconstruction script
 gpus=4
