@@ -20,7 +20,7 @@ eval "$(conda shell.bash hook)"
 source activate banmo-cu113
 
 # Run your 3D reconstruction script
-gpus=4
+gpus=0,1
 seqname="cat-pikachiu"
 addr="10001"
 use_human="no"
@@ -29,16 +29,6 @@ pose_cnn_path="./banmo/mesh_material/posenet/quad.pth"
 num_epochs=120
 batch_size=256
 model_prefix="3D_reconstruction_cat_pikachiu"
-
-
-echo "Checking GPU status:"
-nvidia-smi
-
-echo "Environment variables:"
-env
-
-echo "Checking PyTorch CUDA availability:"
-python -c "import torch; print(torch.cuda.is_available())"
 
 
 savename=${model_prefix}-init
