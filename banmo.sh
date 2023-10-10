@@ -3,7 +3,7 @@
 #SBATCH -p high              	     # Queue name
 #SBATCH -N 2                      		     # 2 node
 #SBATCH --gres=gpu:2              	     # GPUs per node
-#SBATCH --exclude=node[001-018],node[031-032]  #排除节点
+#SBATCH --exclude=node[001-018],node[031-032]  # Exclude the nodes with faulty GPUs
 #SBATCH --time=99:99:99                # maximum execution time (HH:MM:SS)
 #SBATCH -o slurm_3D.%N.%J.out       # Name of the standard output file
 #SBATCH -e slurm_3D.%N.%J.err        # Name of the standard error file
@@ -29,6 +29,17 @@ pose_cnn_path="./banmo/mesh_material/posenet/quad.pth"
 num_epochs=120
 batch_size=256
 model_prefix="3D_reconstruction_cat_pikachiu"
+
+
+echo "Checking GPU status:"
+nvidia-smi
+
+echo "Environment variables:"
+env
+
+echo "Checking PyTorch CUDA availability:"
+python -c "import torch; print(torch.cuda.is_available())"
+
 
 savename=${model_prefix}-init
 bash scripts/template-mgpu.sh $gpus $savename \
