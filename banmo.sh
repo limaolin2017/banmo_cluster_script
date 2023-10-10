@@ -9,29 +9,15 @@
 #SBATCH -e slurm_3D.%N.%J.err        # Name of the standard error file
 #SBATCH --distribution=block
 
-
-
 # Load the required modules (adjust for your cluster environment)
+
 module load Miniconda3
-module load foss/2020b
-module load NCCL/2.9.9-CUDA-11.3.1
-module load PyTorch/1.10.0-foss-2020b-CUDA-11.3.1
-module load CUDA/11.3.1
 
 cd ./banmo
-
-conda env create -f misc/banmo-cu113.yml
+eval "$(conda shell.bash hook)"
 
 # Activate your conda environment
 source activate banmo-cu113
-
-# install pytorch3d (takes minutes), kmeans-pytorch
-pip install -e third_party/pytorch3d
-pip install -e third_party/kmeans_pytorch
-# install detectron2
-python -m pip install detectron2 -f \
-  https://dl.fbaipublicfiles.com/detectron2/wheels/cu113/torch1.10/index.html
-
 
 # Run your 3D reconstruction script
 gpus=4
