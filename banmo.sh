@@ -20,23 +20,11 @@ eval "$(conda shell.bash hook)"
 # Activate your conda environment
 source activate banmo-cu113
 
-# Run your 3D reconstruction script
-gpus=0,1
 seqname="cat-pikachiu"
-addr="10001"
-use_human="no"
-use_symm="no"
-pose_cnn_path="./mesh_material/posenet/quad.pth"
-num_epochs=120
-batch_size=256
-model_prefix="3D_reconstruction_cat_pikachiu"
 
+python preprocess/img2lines.py --seqname $seqname
 
-savename=${model_prefix}-init
-bash scripts/template-mgpu.sh $gpus $savename \
-   $seqname $addr --num_epochs $num_epochs \
- --pose_cnn_path $pose_cnn_path \
- --warmup_shape_ep 5 --warmup_rootmlp \
- --lineload --batch_size $batch_size\
- --${use_symm}symm_shape \
- --${use_human}use_human
+bash scripts/template.sh 0,1 $seqname 10001 "no" "no"
+
+bash scripts/render_mgpu.sh 0,1 $seqname logdir/$seqname-e120-b256-ft2/params_latest.pth \
+        "0 1 2 3 4 5 6 7 8 9 10" 256
