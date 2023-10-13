@@ -18,7 +18,11 @@ cd ./banmo
 eval "$(conda shell.bash hook)"
 
 # Activate your conda environment
-source activate banmo-cu113
+source /soft/easybuild/x86_64/software/Miniconda3/4.9.2/etc/profile.d/conda.sh
+conda activate banmo-cu113
+
+export LD_LIBRARY_PATH=/gpfs/home/mli/.conda/envs/banmo-cu113/lib/:$LD_LIBRARY_PATH
+
 
 seqname="cat-pikachiu"
 
